@@ -9,7 +9,7 @@ My personel implementation of org-roam
 
 | Keymap | command |
 | -------------- | --------------- |
-| <leader>td | open todo_file |
+| `<leader>td` | open todo_file |
 | x | toggle the todo taks |
 | z | add task |
 
