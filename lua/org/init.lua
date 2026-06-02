@@ -71,6 +71,40 @@ local function toggleTask()
 	vim.api.nvim_set_current_line(line)
 end
 
+-- Add a new markdown task based on previous line indentation
+-- and immediately enter insert mode
+local function addTask()
+	local buf = vim.api.nvim_get_current_buf()
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+
+	-- Get previous line
+	local prev_line = vim.api.nvim_buf_get_lines(buf, row - 2, row - 1, false)[1]
+
+	-- Default task if no previous line
+	if not prev_line then
+		vim.api.nvim_put({ "- [ ] " }, "c", true, true)
+		vim.cmd("startinsert!")
+		return
+	end
+
+	-- Preserve indentation from previous line
+	local indent = prev_line:match("^(%s*)") or ""
+
+	-- Insert new task line
+	local new_line = indent .. "- [ ] "
+
+	vim.api.nvim_put({ new_line }, "c", true, true)
+
+	-- Move cursor to end of inserted line
+	vim.api.nvim_win_set_cursor(0, {
+		vim.api.nvim_win_get_cursor(0)[1],
+		#new_line,
+	})
+
+	-- Enter insert mode
+	vim.cmd("startinsert!")
+end
+
 -- Opens a TODO file inside a floating window
 local function open_floating_file(todo_file)
 	-- Check if file exists before opening
@@ -132,6 +166,14 @@ local function open_floating_file(todo_file)
 		silent = true,
 		callback = function()
 			toggleTask()
+		end,
+	})
+
+	vim.api.nvim_buf_set_keymap(buf, "n", "a", "", {
+		noremap = true,
+		silent = true,
+		callback = function()
+			addTask()
 		end,
 	})
 end
