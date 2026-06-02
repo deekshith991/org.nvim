@@ -3,6 +3,16 @@
 
 My personel implementation of org-roam
 
+
+## Keymaps
+#### TodoView
+
+| Keymap | command |
+| -------------- | --------------- |
+| <leader>td | open todo_file |
+| x | toggle the todo taks |
+| z | add task |
+
 ### Lazy.nvim 
 ```lua
 return {
@@ -15,4 +25,3 @@ return {
   },
 }
 ```
-
