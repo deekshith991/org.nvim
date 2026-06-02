@@ -44,6 +44,33 @@ end
 -- end
 ]]
 
+-- Toggle markdown task under cursor and append date when completing
+local function toggleTask()
+	local line = vim.api.nvim_get_current_line()
+
+	-- Match:
+	-- indent + (- or *) + [ ]/[x]
+	local indent, bullet, box, rest = line:match("^(%s*)([-*])%s%[([ xX])%]%s(.*)$")
+
+	if not indent then
+		vim.notify("Not a markdown task", vim.log.levels.INFO)
+		return
+	end
+
+	local date = os.date("%Y-%m-%d")
+
+	if box == " " then
+		-- complete task
+		line = string.format("%s%s [x] %s ✔ %s", indent, bullet, rest, date)
+	else
+		-- reopen task (remove checkbox + date safely)
+		rest = rest:gsub("%s+✔%s+%d%d%d%d%-%d%d%-%d%d", "")
+		line = string.format("%s%s [ ] %s", indent, bullet, rest)
+	end
+
+	vim.api.nvim_set_current_line(line)
+end
+
 -- Opens a TODO file inside a floating window
 local function open_floating_file(todo_file)
 	-- Check if file exists before opening
@@ -97,6 +124,14 @@ local function open_floating_file(todo_file)
 			-- Toggle number and relative number
 			vim.wo[win].number = not nu
 			vim.wo[win].relativenumber = not rnu
+		end,
+	})
+
+	vim.api.nvim_buf_set_keymap(buf, "n", "tt", "", {
+		noremap = true,
+		silent = true,
+		callback = function()
+			toggleTask()
 		end,
 	})
 end
