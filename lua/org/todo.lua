@@ -86,13 +86,13 @@ local function attach_keymaps(buf)
 		end,
 	})
 
-	vim.api.nvim_buf_set_keymap(buf, "n", "tt", "", {
+	vim.api.nvim_buf_set_keymap(buf, "n", "x", "", {
 		noremap = true,
 		silent = true,
 		callback = toggleTask,
 	})
 
-	vim.api.nvim_buf_set_keymap(buf, "n", "a", "", {
+	vim.api.nvim_buf_set_keymap(buf, "n", "z", "", {
 		noremap = true,
 		silent = true,
 		callback = addTask,
