@@ -39,7 +39,10 @@ return {
     src = "deekshith991/org.nvim/",
 
     config = function()
-      require("org").setup({ todo_file = "~/notes/todo.md" })
+      require("org").setup({
+        todo_file = "~/notes/todo.md",
+        ideas_directory = "~/notes/ideas/"
+      })
     end,
   },
 }
