@@ -15,6 +15,19 @@ local function win_config()
 	}
 end
 
+-- TODO: add this Ui to above config
+-- vim.api.nvim_open_win(buf, true, {
+-- 	relative = "editor",
+-- 	row = row,
+-- 	col = col,
+-- 	width = width,
+-- 	height = height,
+-- 	border = "rounded",
+-- 	title = " " .. vim.fn.fnamemodify(filepath, ":t") .. " ",
+-- 	title_pos = "center",
+-- 	style = "minimal",
+-- })
+
 ---------------------------------------------------
 -- TASK TOGGLE
 ---------------------------------------------------
