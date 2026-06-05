@@ -1,7 +1,7 @@
 local M = {}
 
 -- Floating window config
-local function win_config()
+local function win_config(filepath)
 	local width = math.min(math.floor(vim.o.columns * 0.8), 64)
 	local height = math.min(math.floor(vim.o.lines * 0.8), vim.o.lines - 4)
 
@@ -11,22 +11,12 @@ local function win_config()
 		height = height,
 		col = math.floor((vim.o.columns - width) / 2),
 		row = math.floor((vim.o.lines - height) / 2),
-		border = "single",
+		border = "rounded",
+		title = " " .. vim.fn.fnamemodify(filepath, ":t") .. " ",
+		title_pos = "center",
+		style = "minimal",
 	}
 end
-
--- TODO: add this Ui to above config
--- vim.api.nvim_open_win(buf, true, {
--- 	relative = "editor",
--- 	row = row,
--- 	col = col,
--- 	width = width,
--- 	height = height,
--- 	border = "rounded",
--- 	title = " " .. vim.fn.fnamemodify(filepath, ":t") .. " ",
--- 	title_pos = "center",
--- 	style = "minimal",
--- })
 
 ---------------------------------------------------
 -- TASK TOGGLE
@@ -122,7 +112,7 @@ function M.open(todo_file)
 
 	vim.bo[buf].swapfile = false
 
-	local win = vim.api.nvim_open_win(buf, true, win_config())
+	local win = vim.api.nvim_open_win(buf, true, win_config(todo_file))
 
 	vim.wo[win].number = false
 	vim.wo[win].relativenumber = false
